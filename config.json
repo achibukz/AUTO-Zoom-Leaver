@@ -1,0 +1,6 @@
+{
+    "participant_threshold": 1,
+    "check_interval": 2,
+    "auto_start": false,
+    "log_activity": true
+}
