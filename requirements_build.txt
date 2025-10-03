@@ -1,0 +1,17 @@
+# Zoom Auto Leaver Build Requirements - macOS Version
+# All dependencies needed for building and running the macOS .app
+
+# Core automation library
+pyautogui>=0.9.54
+
+# macOS-specific libraries for window management
+pyobjc-framework-Cocoa>=10.0
+pyobjc-framework-Quartz>=10.0
+pyobjc-core>=10.0
+pyobjc-framework-ApplicationServices>=10.0
+
+# App building
+pyinstaller>=6.0.0
+
+# Optional: For creating icons
+# pillow>=10.0.0

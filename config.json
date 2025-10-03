@@ -2,5 +2,7 @@
     "participant_threshold": 1,
     "check_interval": 2,
     "auto_start": false,
-    "log_activity": true
+    "log_activity": true,
+    "leave_shortcut": "cmd+q",
+    "confirm_leave": true
 }

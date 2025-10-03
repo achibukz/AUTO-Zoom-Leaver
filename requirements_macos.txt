@@ -1,0 +1,13 @@
+# Zoom Auto Leaver Requirements - macOS Version
+# macOS-specific dependencies for window management and automation
+
+# Core automation library
+pyautogui>=0.9.54
+
+# macOS-specific libraries for window management
+pyobjc-framework-Cocoa>=10.0
+pyobjc-framework-Quartz>=10.0
+pyobjc-core>=10.0
+
+# Optional: Additional macOS frameworks that might be useful
+pyobjc-framework-ApplicationServices>=10.0
