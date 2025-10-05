@@ -1,126 +1,133 @@
 # AUTO Zoom Leaver
 
-A Python application that automatically leaves Zoom meetings when the participant count drops below a configurable threshold.
+Automatically leaves Zoom meetings when the participant count drops below a configured threshold.
 
-## How It Works
+## 🚀 Quick Start
 
-The application monitors Zoom window titles to detect the participant count and automatically leaves the meeting when:
-1. **Detects participant count** from Zoom window titles (e.g., "Participants (5)")
-2. **Checks threshold** - compares current count with your configured threshold  
-3. **Leaves meeting** - executes the sequence: Focus → Alt+Q → Enter
+### Windows
+```bash
+python zoom_auto_leaver.py
+```
 
-## Features
+### macOS  
+```bash
+python zoom_auto_leaver_macos.py
+```
 
-- **Simple Detection** - Uses window titles instead of complex OCR
-- **Configurable Threshold** - Set your minimum participant count
-- **Automatic Leave Sequence** - Focus window → Alt+Q → Enter  
-- **Multiple Window Support** - Works with different Zoom window types
-- **Interactive Configuration** - Easy setup through console menu
-- **Background Monitoring** - Runs continuously in the background
+### Build Native App (macOS)
+```bash
+./tools/build_macos_app.sh
+```
 
-## Quick Start
+## 📁 Project Structure
 
-1. **Install Python** (3.7 or higher)
+```
+AUTO-Zoom-Leaver/
+├── README.md                    # Main documentation
+├── zoom_auto_leaver.py         # Windows version
+├── zoom_auto_leaver_macos.py   # macOS version  
+├── config.json                 # Configuration file
+├── requirements*.txt           # Dependencies
+├── docs/                       # Documentation
+│   ├── README_macOS.md        # macOS-specific guide
+│   └── BUILD_INSTRUCTIONS.md  # App building guide
+├── tools/                      # Build and utility scripts
+│   ├── build_macos_app.sh     # macOS app builder
+│   ├── run_macos.sh           # macOS setup script
+│   ├── create_icon.py         # Icon generator
+│   └── *.spec                 # PyInstaller configs
+└── scripts/                   # Platform-specific runners
+    ├── run.bat               # Windows batch file
+    ├── run.ps1               # PowerShell script
+    └── cmd.exe               # Windows executable
+```
 
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## ✨ Features
 
-3. **Run the Application**:
-   ```bash
-   python zoom_auto_leaver.py
-   ```
+- **Cross-Platform**: Native Windows and macOS versions
+- **Smart Detection**: Monitors participant count via window titles  
+- **Configurable**: Customizable thresholds and intervals
+- **Native Apps**: Build standalone `.app` bundles for macOS
+- **Auto-Leave**: Executes platform-specific quit sequences
+- **Logging**: Detailed activity tracking
 
-4. **Configure Settings** (choose option 2):
-   - Set participant threshold (default: 5)
-   - Set check interval (default: 10 seconds)
-   - Enable/disable logging
+## 🔧 Installation
 
-5. **Start Monitoring** (choose option 1):
-   - Application will monitor Zoom windows
-   - Automatically leaves when threshold is reached
+### Basic Setup
+```bash
+git clone https://github.com/achibukz/AUTO-Zoom-Leaver.git
+cd AUTO-Zoom-Leaver
+pip install -r requirements.txt  # Windows
+pip install -r requirements_macos.txt  # macOS
+```
 
-2. Configure your settings:
-   - **Participant Threshold**: Number of participants below which you want to leave (default: 2)
-   - **Check Interval**: How often to check participant count in seconds (default: 5)
-   - **Debug Mode**: Enable to save screenshots for troubleshooting
+### macOS App (Recommended)
+```bash
+./tools/build_macos_app.sh
+# Drag resulting .app to Applications folder
+```
 
-3. Click "Start Monitoring" to begin
-## Configuration Options
+## ⚙️ Configuration
 
-- **Participant Threshold**: Minimum number of participants to stay in meeting
-- **Check Interval**: How often to check participant count (seconds)
-- **Auto-start**: Automatically start monitoring on launch
-- **Logging**: Enable/disable activity logging
+Edit `config.json` or use the interactive menu:
 
-## Requirements
-
-- Python 3.7+
-- Windows (primary support)
-- Active Zoom meeting with visible participant count
-
-## Dependencies
-
-- `pygetwindow` - Window detection and management
-- `pyautogui` - Keyboard automation
-
-## How to Use
-
-### Menu Options:
-
-1. **Start Monitoring** - Begin watching for participant count
-2. **Configure Settings** - Adjust threshold and other options  
-3. **Test Detection** - Check if Zoom windows are detected properly
-4. **Exit** - Quit the application
-
-### Window Detection:
-
-The app looks for Zoom windows and tries to find participant count in titles like:
-- "Participants (15)"
-- "15 participants" 
-- "Meeting - Participants: 10"
-
-### Leave Sequence:
-
-When threshold is reached:
-1. Focus on Zoom window
-2. Press Alt+Q (Leave Meeting shortcut)
-3. Press Enter (Confirm leaving)
-
-## Troubleshooting
-
-### "No Zoom windows found"
-- Make sure Zoom is running and visible
-- Check that window titles contain "zoom" 
-- Try joining a meeting first
-
-### "Could not determine participant count"
-- Participant count might not be in window title
-- Try opening the Participants panel in Zoom
-- Some Zoom versions show count differently
-
-### Leave sequence not working
-- Make sure Alt+Q shortcut is enabled in Zoom settings
-- Check that Zoom window can receive focus
-- Try manually testing Alt+Q in Zoom
-
-## Customization
-
-Edit `config.json` to customize:
 ```json
 {
     "participant_threshold": 5,
     "check_interval": 10,
     "auto_start": false,
-    "log_activity": true
+    "log_activity": true,
+    "leave_shortcut": "cmd+q"
 }
 ```
 
-## License
+## 🎯 How It Works
 
-This project is provided as-is for educational purposes.
+1. **Detection**: Scans for Zoom windows with participant info
+2. **Monitoring**: Checks participant count every X seconds  
+3. **Trigger**: When count ≤ threshold, initiates leave sequence
+4. **Exit**: Platform-specific quit command + confirmation
 
-## Disclaimer
+## 📱 Platform Differences
 
-This tool automates keyboard interactions with Zoom. Use responsibly and in accordance with your organization's policies.
+| Feature | Windows | macOS |
+|---------|---------|-------|
+| Shortcut | `Alt+Q` | `Cmd+Q` |
+| Window Detection | pygetwindow | AppKit/AppleScript |
+| Native App | ❌ | ✅ (.app bundle) |
+| Menu Bar | ❌ | ✅ (planned) |
+
+## 🛠️ Development
+
+### Build Tools
+- `tools/build_macos_app.sh` - Create macOS application
+- `tools/run_macos.sh` - Development setup script
+- `tools/create_icon.py` - Generate app icons
+
+### Documentation  
+- `docs/README_macOS.md` - macOS-specific documentation
+- `docs/BUILD_INSTRUCTIONS.md` - Detailed build guide
+
+## ⚠️ Important Notes
+
+- **Test First**: Always test in non-important meetings
+- **Permissions**: macOS requires Accessibility permissions
+- **Backup Plan**: Have manual exit strategies ready
+- **Responsibility**: Use at your own risk
+
+## 📖 Platform-Specific Guides
+
+- **macOS Users**: See `docs/README_macOS.md`  
+- **Building Apps**: See `docs/BUILD_INSTRUCTIONS.md`
+- **Windows Users**: Use `zoom_auto_leaver.py` directly
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Test on your platform
+4. Submit pull request
+
+## 📄 License
+
+Use responsibly and at your own risk. Not liable for unintended meeting departures.

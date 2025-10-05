@@ -1,3 +1,0 @@
-([('Zoom Auto Leaver',
-   '/Users/achibukz/Code/GitHub/AUTO-Zoom-Leaver/dist/Zoom Auto Leaver',
-   'EXECUTABLE')],)
