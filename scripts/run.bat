@@ -11,9 +11,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Check if required packages are installed
+REM Check if the runtime packages are installed
 echo Checking dependencies...
-python -c "import pyautogui, pytesseract, PIL, psutil" >nul 2>&1
+python -c "import psutil, pyautogui; from pywinauto import Desktop" >nul 2>&1
 if errorlevel 1 (
     echo Installing required packages...
     pip install -r requirements.txt
