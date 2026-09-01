@@ -1,0 +1,4 @@
+# Windows runtime, test, and packaging dependencies
+-r requirements.txt
+pyinstaller==6.11.1
+pytest==8.3.4
