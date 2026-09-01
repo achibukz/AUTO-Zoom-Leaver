@@ -6,7 +6,7 @@ from PyInstaller.utils.hooks import collect_submodules
 hidden_imports = ["psutil", *collect_submodules("pywinauto")]
 
 a = Analysis(
-    ["tools/windows_zoom_diagnostic.py"],
+    ["windows_zoom_diagnostic.py"],
     pathex=["."],
     binaries=[],
     datas=[],
