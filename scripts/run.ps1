@@ -13,12 +13,12 @@ try {
     exit 1
 }
 
-# Check if required packages are installed
+# Check if the runtime packages are installed
 Write-Host "Checking dependencies..." -ForegroundColor Yellow
-try {
-    python -c "import pyautogui, pytesseract, PIL, psutil" 2>$null
+python -c "import psutil, pyautogui; from pywinauto import Desktop" 2>$null
+if ($LASTEXITCODE -eq 0) {
     Write-Host "All dependencies are installed" -ForegroundColor Green
-} catch {
+} else {
     Write-Host "Installing required packages..." -ForegroundColor Yellow
     pip install -r requirements.txt
     if ($LASTEXITCODE -ne 0) {
@@ -26,29 +26,6 @@ try {
         Read-Host "Press Enter to exit"
         exit 1
     }
-}
-
-# Check for Tesseract OCR
-Write-Host "Checking for Tesseract OCR..." -ForegroundColor Yellow
-$tesseractPaths = @(
-    "C:\Program Files\Tesseract-OCR\tesseract.exe",
-    "C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"
-)
-
-$tesseractFound = $false
-foreach ($path in $tesseractPaths) {
-    if (Test-Path $path) {
-        Write-Host "Found Tesseract at: $path" -ForegroundColor Green
-        $tesseractFound = $true
-        break
-    }
-}
-
-if (-not $tesseractFound) {
-    Write-Host "WARNING: Tesseract OCR not found in standard locations" -ForegroundColor Yellow
-    Write-Host "Please install Tesseract OCR from: https://github.com/UB-Mannheim/tesseract/wiki" -ForegroundColor Yellow
-    Write-Host "The application may not work correctly without it." -ForegroundColor Yellow
-    Write-Host ""
 }
 
 # Run the application
