@@ -20,7 +20,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "All dependencies are installed" -ForegroundColor Green
 } else {
     Write-Host "Installing required packages..." -ForegroundColor Yellow
-    pip install -r requirements.txt
+    python -m pip install -r requirements_windows.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "ERROR: Failed to install dependencies" -ForegroundColor Red
         Read-Host "Press Enter to exit"

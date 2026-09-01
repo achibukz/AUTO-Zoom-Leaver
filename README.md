@@ -2,14 +2,21 @@
 
 Automatically leaves Zoom meetings when the participant count drops below a configured threshold.
 
-## 🚀 Quick Start
+## Quick start
 
 ### Windows
+
+Download the `AutoZoomLeaver-windows` artifact from a successful `Windows
+application` GitHub Actions run. Extract the executable and run
+`AutoZoomLeaver.exe`. Python is not required. Read the [Windows guide](docs/README_windows.md)
+before the first run.
+
 ```bash
-python zoom_auto_leaver.py
+AutoZoomLeaver.exe --self-test
+AutoZoomLeaver.exe
 ```
 
-### macOS  
+### macOS
 ```bash
 python zoom_auto_leaver_macos.py
 ```
@@ -26,11 +33,12 @@ AUTO-Zoom-Leaver/
 ├── README.md                    # Main documentation
 ├── zoom_auto_leaver.py         # Windows version
 ├── zoom_auto_leaver_macos.py   # macOS version  
-├── config.json                 # Configuration file
+├── config.json                 # Legacy source-run configuration file
 ├── requirements*.txt           # Dependencies
 ├── docs/                       # Documentation
+│   ├── README_windows.md      # Windows installation and use
 │   ├── README_macOS.md        # macOS-specific guide
-│   └── BUILD_INSTRUCTIONS.md  # App building guide
+│   └── BUILD_INSTRUCTIONS.md  # macOS app building guide
 ├── tools/                      # Build and utility scripts
 │   ├── build_macos_app.sh     # macOS app builder
 │   ├── run_macos.sh           # macOS setup script
@@ -39,15 +47,14 @@ AUTO-Zoom-Leaver/
 └── scripts/                   # Platform-specific runners
     ├── run.bat               # Windows batch file
     ├── run.ps1               # PowerShell script
-    └── cmd.exe               # Windows executable
 ```
 
 ## ✨ Features
 
 - **Cross-Platform**: Native Windows and macOS versions
-- **Smart Detection**: Monitors participant count via window titles  
+- **Smart Detection**: Reads participant controls through Windows UI Automation
 - **Configurable**: Customizable thresholds and intervals
-- **Native Apps**: Build standalone `.app` bundles for macOS
+- **Native Apps**: Build standalone `.exe` and `.app` bundles
 - **Auto-Leave**: Executes platform-specific quit sequences
 - **Logging**: Detailed activity tracking
 
@@ -57,7 +64,7 @@ AUTO-Zoom-Leaver/
 ```bash
 git clone https://github.com/achibukz/AUTO-Zoom-Leaver.git
 cd AUTO-Zoom-Leaver
-pip install -r requirements.txt  # Windows
+python -m pip install -r requirements_windows.txt  # Windows source run
 pip install -r requirements_macos.txt  # macOS
 ```
 
@@ -69,7 +76,8 @@ pip install -r requirements_macos.txt  # macOS
 
 ## ⚙️ Configuration
 
-Edit `config.json` or use the interactive menu:
+For a packaged Windows run, use the interactive menu. It stores settings under
+`%LOCALAPPDATA%\AutoZoomLeaver`. A source run can edit the legacy `config.json`:
 
 ```json
 {
@@ -83,7 +91,7 @@ Edit `config.json` or use the interactive menu:
 
 ## 🎯 How It Works
 
-1. **Detection**: Scans for Zoom windows with participant info
+1. **Detection**: Scans Zoom's UI Automation controls for participant info
 2. **Monitoring**: Checks participant count every X seconds  
 3. **Trigger**: When count ≤ threshold, initiates leave sequence
 4. **Exit**: Platform-specific quit command + confirmation
@@ -93,8 +101,8 @@ Edit `config.json` or use the interactive menu:
 | Feature | Windows | macOS |
 |---------|---------|-------|
 | Shortcut | `Alt+Q` | `Cmd+Q` |
-| Window Detection | pygetwindow | AppKit/AppleScript |
-| Native App | ❌ | ✅ (.app bundle) |
+| Window Detection | Microsoft UI Automation | AppKit/AppleScript |
+| Native App | ✅ (.exe bundle) | ✅ (.app bundle) |
 | Menu Bar | ❌ | ✅ (planned) |
 
 ## 🛠️ Development
@@ -106,6 +114,7 @@ Edit `config.json` or use the interactive menu:
 
 ### Documentation  
 - `docs/README_macOS.md` - macOS-specific documentation
+- `docs/README_windows.md` - Windows installation and usage
 - `docs/BUILD_INSTRUCTIONS.md` - Detailed build guide
 
 ## ⚠️ Important Notes
@@ -119,7 +128,7 @@ Edit `config.json` or use the interactive menu:
 
 - **macOS Users**: See `docs/README_macOS.md`  
 - **Building Apps**: See `docs/BUILD_INSTRUCTIONS.md`
-- **Windows Users**: Use `zoom_auto_leaver.py` directly
+- **Windows Users**: See `docs/README_windows.md`
 - **Windows diagnostic**: See `docs/WINDOWS_DIAGNOSTIC.md` for the read-only UI Automation probe
 
 ## 🤝 Contributing

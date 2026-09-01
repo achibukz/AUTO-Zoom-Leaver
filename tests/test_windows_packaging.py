@@ -1,7 +1,9 @@
+import re
 import sys
 from pathlib import Path
 
 import pytest
+import yaml
 
 from auto_zoom_leaver.config import (
     ConfigStore,
@@ -11,6 +13,10 @@ from auto_zoom_leaver.config import (
 )
 from auto_zoom_leaver.windows import WindowsZoomAdapter
 from zoom_auto_leaver import main, run_self_test
+
+
+WORKFLOW_PATH = Path(".github/workflows/windows.yml")
+WINDOWS_GUIDE_PATH = Path("docs/README_windows.md")
 
 
 class AvailableAutomation:
@@ -189,3 +195,54 @@ def test_generated_windows_artifacts_are_ignored():
     assert "build/" in ignored
     assert "dist/" in ignored
     assert "*.exe" in ignored
+
+
+def test_windows_workflow_parses_required_triggers_jobs_and_commands():
+    workflow = yaml.safe_load(WORKFLOW_PATH.read_text(encoding="utf-8"))
+    triggers = workflow.get("on", workflow.get(True))
+
+    assert "pull_request" in triggers
+    assert "workflow_dispatch" in triggers
+    assert workflow["jobs"]["tests"]["runs-on"] == "windows-latest"
+    assert workflow["jobs"]["build"]["needs"] == "tests"
+    assert workflow["jobs"]["build"]["runs-on"] == "windows-latest"
+
+    build_text = "\n".join(
+        step.get("run", "")
+        for step in workflow["jobs"]["build"]["steps"]
+    )
+    assert ".\\tools\\build_windows.ps1" in build_text
+    assert "dist\\AutoZoomLeaver.exe" in build_text
+    assert "--self-test" in build_text
+
+    upload_steps = [
+        step
+        for step in workflow["jobs"]["build"]["steps"]
+        if step.get("uses", "").startswith("actions/upload-artifact@")
+    ]
+    assert len(upload_steps) == 1
+    assert upload_steps[0]["with"]["path"] == "dist/AutoZoomLeaver.exe"
+
+
+def test_windows_workflow_runs_tests_before_build_and_does_not_publish_release():
+    workflow_text = WORKFLOW_PATH.read_text(encoding="utf-8")
+    workflow = yaml.safe_load(workflow_text)
+    tests_text = "\n".join(
+        step.get("run", "")
+        for step in workflow["jobs"]["tests"]["steps"]
+    )
+
+    assert "python -m pytest -q" in tests_text
+    assert "actions/upload-artifact@v4" in workflow_text
+    assert "actions/create-release" not in workflow_text
+    assert "gh release" not in workflow_text
+    assert "git commit" not in workflow_text
+
+
+def test_windows_guide_links_resolve_to_existing_repository_files():
+    guide = WINDOWS_GUIDE_PATH.read_text(encoding="utf-8")
+    links = re.findall(r"\[[^]]+\]\(([^)#]+)", guide)
+
+    assert links
+    for link in links:
+        assert (WINDOWS_GUIDE_PATH.parent / link).exists(), link
