@@ -52,6 +52,16 @@ class WindowsZoomAdapter:
         self._hotkey = pyautogui.hotkey
         return self._desktop_factory, self._process_iter, self._hotkey
 
+    def check_availability(self) -> bool:
+        """Load the UI Automation backend without inspecting or changing Zoom."""
+        try:
+            desktop_factory, _, _ = self._dependencies()
+            if desktop_factory() is None:
+                raise RuntimeError("UI Automation desktop could not be created")
+        except Exception as error:
+            raise RuntimeError("UI Automation backend is unavailable") from error
+        return True
+
     def _zoom_processes(self) -> list[Any]:
         _, process_iter, _ = self._dependencies()
         processes = []

@@ -1,12 +1,38 @@
 from __future__ import annotations
 
+import sys
+from collections.abc import Callable, Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Callable
 
 from src.auto_zoom_leaver.config import ConfigStore
 from src.auto_zoom_leaver.monitor import MeetingMonitor
 from src.auto_zoom_leaver.windows import WindowsZoomAdapter
+
+
+def run_self_test(
+    store_factory: Callable[[], ConfigStore] = ConfigStore,
+    adapter_factory: Callable[[], WindowsZoomAdapter] = WindowsZoomAdapter,
+) -> bool:
+    try:
+        store = store_factory()
+        config = store.load()
+        required_keys = {
+            "participant_threshold",
+            "check_interval",
+            "auto_start",
+            "log_activity",
+        }
+        if not required_keys.issubset(config):
+            raise RuntimeError("configuration is missing required settings")
+        if not adapter_factory().check_availability():
+            raise RuntimeError("UI Automation backend is unavailable")
+    except Exception as error:
+        print(f"Self-test failed: {error}", file=sys.stderr)
+        return False
+
+    print("Self-test passed: configuration and UI Automation are available.")
+    return True
 
 
 class ZoomAutoLeaver:
@@ -116,7 +142,14 @@ class ZoomAutoLeaver:
                 print("Invalid choice. Please try again.")
 
 
-def main() -> int:
+def main(argv: Sequence[str] | None = None) -> int:
+    arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments == ["--self-test"]:
+        return 0 if run_self_test() else 1
+    if arguments:
+        print(f"Unknown argument: {arguments[0]}", file=sys.stderr)
+        return 2
+
     auto_leaver = ZoomAutoLeaver()
     if auto_leaver.config["auto_start"]:
         auto_leaver.monitor_meeting()

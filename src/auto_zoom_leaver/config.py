@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Mapping
 
@@ -33,6 +34,10 @@ def default_config_path() -> Path:
 
 def activity_log_path() -> Path:
     return default_storage_dir() / LOG_FILENAME
+
+
+def running_frozen() -> bool:
+    return bool(getattr(sys, "frozen", False))
 
 
 def validate_config(values: object) -> dict[str, object]:
@@ -74,11 +79,18 @@ class ConfigStore:
         legacy_path: Path | None = None,
     ) -> None:
         self.path = path or default_config_path()
-        self.legacy_path = legacy_path or (Path.cwd() / CONFIG_FILENAME)
+        if legacy_path is not None:
+            self.legacy_path = legacy_path
+        elif running_frozen():
+            self.legacy_path = None
+        else:
+            self.legacy_path = Path.cwd() / CONFIG_FILENAME
         self.log_path = self.path.with_name(LOG_FILENAME)
 
     def load(self) -> dict[str, object]:
-        source_path = self.path if self.path.exists() else self.legacy_path
+        source_path = self.path
+        if not source_path.exists() and self.legacy_path is not None:
+            source_path = self.legacy_path
         values: object = {}
         if source_path.exists():
             try:

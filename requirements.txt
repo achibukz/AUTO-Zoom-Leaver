@@ -2,7 +2,3 @@
 psutil==6.1.1
 pyautogui==0.9.54
 pywinauto==0.6.8
-
-# Development and packaging dependencies
-pyinstaller==6.11.1
-pytest==8.3.4
