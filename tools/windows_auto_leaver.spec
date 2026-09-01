@@ -17,8 +17,8 @@ hidden_imports = [
 ]
 
 a = Analysis(
-    ["zoom_auto_leaver.py"],
-    pathex=["."],
+    ["../zoom_auto_leaver.py"],
+    pathex=[".."],
     binaries=[],
     datas=[],
     hiddenimports=hidden_imports,

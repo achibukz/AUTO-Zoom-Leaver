@@ -3,11 +3,11 @@
 ## ✅ Completed Features
 
 ### Core Functionality
-- [x] Windows version with pygetwindow
+- [x] Windows version with Microsoft UI Automation
 - [x] macOS version with AppKit/AppleScript  
-- [x] Participant count detection via window titles
+- [x] Participant count detection via Zoom UI Automation controls
 - [x] Configurable thresholds and intervals
-- [x] Auto-leave sequence execution
+- [x] Safe `Leave Meeting` control selection
 - [x] Detailed logging system
 
 ### Platform Integration  
@@ -19,9 +19,9 @@
 
 ### Build System
 - [x] PyInstaller configuration
-- [x] Automated build scripts
+- [x] Automated Windows and macOS build scripts
 - [x] Icon generation utility
-- [x] Cross-platform requirements files
+- [x] Platform-specific requirements files
 
 ### Documentation
 - [x] Platform-specific guides
@@ -67,7 +67,7 @@
 ### macOS
 - Console app requires terminal interaction when launched from Finder
 - Permission dialogs may appear on first run
-- Some Zoom versions may use different window titles
+- Some Zoom versions may expose different UI Automation labels
 
 ### Windows  
 - May not work with all Zoom versions
@@ -75,7 +75,7 @@
 - Alt+Q shortcut must be enabled in Zoom settings
 
 ### General
-- Participant count detection relies on window titles
+- Participant count detection depends on Zoom's accessible participant labels
 - Timing sensitive for leave confirmation
 - May need adjustment for different Zoom configurations
 
@@ -84,6 +84,6 @@
 - [x] macOS 14.0+ (Apple Silicon)
 - [x] Zoom 5.15+
 - [x] Python 3.9-3.13
-- [ ] Windows 10/11
+- [ ] Windows 10/11 live Zoom check
 - [ ] Older Zoom versions
 - [ ] Non-English Zoom interfaces

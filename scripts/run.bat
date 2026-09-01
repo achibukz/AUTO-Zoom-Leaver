@@ -16,7 +16,7 @@ echo Checking dependencies...
 python -c "import psutil, pyautogui; from pywinauto import Desktop" >nul 2>&1
 if errorlevel 1 (
     echo Installing required packages...
-    pip install -r requirements.txt
+    python -m pip install -r requirements_windows.txt
     if errorlevel 1 (
         echo ERROR: Failed to install dependencies
         pause
