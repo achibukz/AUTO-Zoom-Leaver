@@ -120,6 +120,7 @@ Edit `config.json` or use the interactive menu:
 - **macOS Users**: See `docs/README_macOS.md`  
 - **Building Apps**: See `docs/BUILD_INSTRUCTIONS.md`
 - **Windows Users**: Use `zoom_auto_leaver.py` directly
+- **Windows diagnostic**: See `docs/WINDOWS_DIAGNOSTIC.md` for the read-only UI Automation probe
 
 ## 🤝 Contributing
 

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "captures": [
+    {
+      "capture_type": "participant_meeting",
+      "processes": [
+        {
+          "process_name": "Zoom.exe",
+          "controls": [
+            {
+              "control_type": "Window",
+              "class_name": "ZPlistPopupContainerWndClass",
+              "automation_id": "",
+              "hierarchy": ["Window"],
+              "normalized_label": "Participants (2)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "capture_type": "participant_leave_prompt",
+      "processes": [
+        {
+          "process_name": "Zoom.exe",
+          "controls": [
+            {
+              "control_type": "Button",
+              "class_name": "",
+              "automation_id": "",
+              "hierarchy": ["Window", "Pane", "Button"],
+              "normalized_label": "Leave Meeting"
+            },
+            {
+              "control_type": "Window",
+              "class_name": "ZPlistPopupContainerWndClass",
+              "automation_id": "",
+              "hierarchy": ["Window"],
+              "normalized_label": "Participants (2)"
+            },
+            {
+              "control_type": "Text",
+              "class_name": "",
+              "automation_id": "",
+              "hierarchy": ["Window", "Text"],
+              "normalized_label": "<redacted>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "capture_type": "host_leave_prompt",
+      "processes": [
+        {
+          "process_name": "Zoom.exe",
+          "controls": [
+            {
+              "control_type": "Button",
+              "class_name": "",
+              "automation_id": "",
+              "hierarchy": ["Window", "Pane", "Button"],
+              "normalized_label": "End Meeting for All"
+            },
+            {
+              "control_type": "Button",
+              "class_name": "",
+              "automation_id": "",
+              "hierarchy": ["Window", "Pane", "Button"],
+              "normalized_label": "Leave Meeting"
+            },
+            {
+              "control_type": "Window",
+              "class_name": "ZPlistPopupContainerWndClass",
+              "automation_id": "",
+              "hierarchy": ["Window"],
+              "normalized_label": "Participants (1)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

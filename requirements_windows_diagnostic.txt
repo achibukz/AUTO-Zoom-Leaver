@@ -1,0 +1,5 @@
+# Runtime and build dependencies for tools/windows_zoom_diagnostic.py
+psutil==6.1.1
+pywinauto==0.6.8
+pyinstaller==6.11.1
+pytest==8.3.4
