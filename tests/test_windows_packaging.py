@@ -161,6 +161,7 @@ def test_packaging_spec_supports_both_build_modes():
     spec = Path("tools/windows_auto_leaver.spec").read_text(encoding="utf-8")
 
     assert 'AUTO_ZOOM_LEAVER_BUILD_MODE' in spec
+    assert '"../zoom_auto_leaver.py"' in spec
     assert '"onedir"' in spec
     assert "COLLECT(" in spec
     assert 'name="AutoZoomLeaver"' in spec
