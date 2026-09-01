@@ -36,3 +36,7 @@ The report includes process name, control type, class name, automation ID,
 control hierarchy, and normalized participant-count or leave-action labels.
 Participant names, email addresses, meeting IDs, meeting topics, and unknown
 text become `<redacted>` before the report is written.
+
+The returned report's selector findings are recorded in
+`docs/WINDOWS_ZOOM_SELECTORS.md`, with a sanitized fixture at
+`tests/fixtures/windows_zoom_report.json`.

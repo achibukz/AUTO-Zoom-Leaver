@@ -14,6 +14,55 @@ from tools.windows_zoom_diagnostic import (
 )
 
 
+FIXTURE_PATH = Path(__file__).parent / "fixtures" / "windows_zoom_report.json"
+
+
+def test_returned_windows_report_fixture_has_only_sanitized_selector_data():
+    report = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
+
+    assert report["schema_version"] == 1
+    assert [capture["capture_type"] for capture in report["captures"]] == [
+        "participant_meeting",
+        "participant_leave_prompt",
+        "host_leave_prompt",
+    ]
+
+    labels = {
+        control["normalized_label"]
+        for capture in report["captures"]
+        for process in capture["processes"]
+        for control in process["controls"]
+        if control["normalized_label"] != "<redacted>"
+    }
+    assert labels == {
+        "Participants (1)",
+        "Participants (2)",
+        "Leave Meeting",
+        "End Meeting for All",
+    }
+
+    serialized = json.dumps(report)
+    assert "Alicia" not in serialized
+    assert "@" not in serialized
+    assert "123 456 7890" not in serialized
+
+    for process in [
+        process
+        for capture in report["captures"]
+        for process in capture["processes"]
+    ]:
+        assert process["process_name"] == "Zoom.exe"
+        for control in process["controls"]:
+            assert "name" not in control
+            assert set(control) == {
+                "control_type",
+                "class_name",
+                "automation_id",
+                "hierarchy",
+                "normalized_label",
+            }
+
+
 @pytest.mark.parametrize(
     ("label", "expected"),
     [
